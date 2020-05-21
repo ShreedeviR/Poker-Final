@@ -31,12 +31,12 @@ public class Deck
         {
             if (deck.length == 1)
             {
-                s = s + c;
+                s = s + c.toString();
             }
             
             else 
             {
-                s = s + ' ' + c;
+                s = s + ' ' + c.toString();
             }
             
         }
@@ -58,11 +58,17 @@ public class Deck
         }
                     
     }
-
-
-   public Card deal(Card [] card) 
+   
+   public Card[] getDeck ()
    {
-      return card [0];
+       return deck;
+   }
+
+
+   public Card deal(Deck deck) 
+   {
+      deck.shuffle();
+      return ;
    }
 
 
@@ -71,7 +77,7 @@ public class Deck
          random.shuffle(this.cards)
     }
    
-   public Card [] getTwoCards ()
+ /*  public Card [] getTwoCards ()
    {
        Card [] playerCards = new Card [2];
        int x = (int)Math.random() * 52;
@@ -100,5 +106,6 @@ public class Deck
       
                       
    }
+   */
 
 }

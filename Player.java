@@ -46,6 +46,17 @@ public class Player
     {
         return name;
     }
+    
+    /*public Card addCard ()
+    {
+        
+    }
+    */
+    public String addName (String s)
+    {
+        name = s;
+        return name;
+    }
     public int getAmount()
     {
         return amount;

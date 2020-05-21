@@ -1,13 +1,27 @@
 import java.awt.Color;
+import java.util.Scanner;
 
+/**
+ *  TODO Write a one-sentence summary of your class here.
+ *  TODO Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ *
+ *  @author  shree
+ *  @version May 20, 2020
+ *  @author  Period: TODO
+ *  @author  Assignment: PokerFinalProject
+ *
+ *  @author  Sources: TODO
+ */
 public class Game
 {
-   Chips [] chip = new Chips [30];
-   private int bigBlind = 100;
-   private int smallBlind = 50;
-   Deck deck = new Deck ();
-   private int pot = 0;
-   public Chips [] fillChips ()
+   static Chips [] chip = new Chips [30];
+   private static int bigBlind;
+   private static int smallBlind;
+   static Deck deck = new  Deck ();
+   private static int pot = 0;
+   
+   public static Chips [] fillChips ()
    {
   
        for (int count = 0; count < chip.length; count++)
@@ -33,53 +47,56 @@ public class Game
        return chip;
    }
 
-   private Player pickRandomPlayer (Player one, Player two, Player three, Player four)
+  /* private Player pickRandomPlayer (Player one, Player two, Player three, Player four)
    {
        Player [] play = {one, two, three, four};
        int x = (int)Math.random() * 4;
        return play [x];
        
        }
+       */
    
-   public void play ()
+   public static void play ()
     {
-      chip = this.fillChips ();
-      Card [] player1cards = deck.getTwoCards();
-      Card [] player2cards = deck.getTwoCards();
-      Card []player3cards = deck.getTwoCards();
-      Card [] player4cards = deck.getTwoCards();
+      chip = fillChips ();
+      deck.shuffle();
+    
+      Player player1 = new Player ("Kim", chip, null, null);
+      Player user = new Player (null, chip, null, null);
       
-     
-      Player player1 = new Player ("Bob", chip, player1cards[0], player1cards[1] );
-      Player player2 = new Player ("Marley", chip ,player2cards[0], player2cards[1] );
-      Player player3 = new Player ("Martha", chip, player3cards [0], player3cards [1]);
-      Player player4 = new Player ("Kim", chip, player4cards [0], player4cards [1]);
-      
-      player1.bet( bigBlind );
-      pot += bigBlind;
-      player2.bet( smallBlind );
-      pot += smallBlind;
+      System.out.println ("What is your name?");
+      Scanner input = new Scanner (System.in);
+      user.addName( input.next() );
       
       
       
+      System.out.println ("How much do you want to bet");
+      smallBlind = input.nextInt();
+      pot+= smallBlind;
+      
+      System.out.println ("How much do you want to bet");
+      bigBlind = input.nextInt();
+      pot += bigBlind; 
       
       
-     
-   
-       
+      
         
       
 
     }
    
   
-   }
+   
     
    
      
        
 
- 
+  public static void main (String [] args)
+  {
+      play();
+  }
+  }
 
 
 
