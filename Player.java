@@ -52,11 +52,7 @@ public class Player
         
     }
     */
-    public String addName (String s)
-    {
-        name = s;
-        return name;
-    }
+   
     public int getAmount()
     {
         return amount;
