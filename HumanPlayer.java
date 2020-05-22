@@ -1,20 +1,20 @@
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class HumanPlayer extends Player implements MouseListener
 {
     private String name;
     private Chips [] chip;
-    private Card card;
-    private Card card1;
+    public ArrayList<Card> hand = new ArrayList<Card>();
     private int amount;
     private boolean myTurn;
-    public HumanPlayer (String name, Chips [] chip, Card card, Card card1)
+    public HumanPlayer (String name, Chips [] chip, Card card, Card card1, Card card2, Card card3, Card card4)
     {
-        super (name, chip, card, card1);
+        super (name, chip, card, card1, card2, card3, card4);
         for (Chips ch: chip)
-        {
+       
             if (ch.getColor().equals( Color.RED ))
             {
                 amount += 5;
@@ -33,7 +33,7 @@ public class HumanPlayer extends Player implements MouseListener
             }
         }
             
-    }
+    
     
     public String addName (String s)
     {
@@ -60,223 +60,7 @@ public class HumanPlayer extends Player implements MouseListener
     public void makeBet (int c)
     {
         super.bet(c);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+       
     }
     
 

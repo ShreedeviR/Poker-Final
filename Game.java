@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.util.Scanner;
 
 /**
@@ -14,10 +15,9 @@ import java.util.Scanner;
  *  @author  Sources: TODO
  */
 public class Game
-{
+{  
    static Chips [] chip = new Chips [30];
-   private static int bigBlind;
-   private static int smallBlind;
+   private static int ante;
    static Deck deck = new  Deck ();
    private static int pot = 0;
    
@@ -59,29 +59,27 @@ public class Game
    public static void play ()
     {
       chip = fillChips ();
-      deck.shuffle();
     
-      Player player1 = new Player ("Kim", chip, null, null);
-      Player user = new Player (null, chip, null, null);
+      ComputerPlayer player1 = new ComputerPlayer ("Kim", chip, null, null,null,null,null);
+      HumanPlayer user = new HumanPlayer (null, chip, null, null, null, null, null);
       
+      System.out.println (user.getMoneyMessage());
       System.out.println ("What is your name?");
       Scanner input = new Scanner (System.in);
-      user.addName( input.next() );
+      String name = input.next();
+      user.addName(name );
+      System.out.println ("Hello " + name + "!");
       
       
-      
-      System.out.println ("How much do you want to bet");
-      smallBlind = input.nextInt();
-      pot+= smallBlind;
-      
-      System.out.println ("How much do you want to bet");
-      bigBlind = input.nextInt();
-      pot += bigBlind; 
-      
-      
-      
-        
-      
+      System.out.println ("How much do you want to bet?");
+      ante = input.nextInt ();
+      pot += ante;
+      user.bet( ante );
+      player1.bet( ante );
+      deck.shuffle();
+      deck.deal();
+     
+       
 
     }
    
@@ -94,7 +92,10 @@ public class Game
 
   public static void main (String [] args)
   {
+      BoardPanel hello = new BoardPanel ();
+      
       play();
+      
   }
   }
 
