@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,6 +21,9 @@ public class Game
    private static int ante;
    static Deck deck = new  Deck ();
    private static int pot = 0;
+   private static Scanner input = new Scanner (System.in);
+  
+
    
    public static Chips [] fillChips ()
    {
@@ -60,12 +64,11 @@ public class Game
     {
       chip = fillChips ();
     
-      ComputerPlayer player1 = new ComputerPlayer ("Kim", chip, null, null,null,null,null);
+       ComputerPlayer player1 = new ComputerPlayer ("Kim", chip, null, null,null,null,null);
       HumanPlayer user = new HumanPlayer (null, chip, null, null, null, null, null);
-      
       System.out.println (user.getMoneyMessage());
       System.out.println ("What is your name?");
-      Scanner input = new Scanner (System.in);
+   
       String name = input.next();
       user.addName(name );
       System.out.println ("Hello " + name + "!");
@@ -77,11 +80,57 @@ public class Game
       user.bet( ante );
       player1.bet( ante );
       deck.shuffle();
-      deck.deal();
-     
+ 
+      for (int count = 0 ; count <= 4; count++)
+      {
+          user.setHand(  deck.deal(), count);
+          player1.setHand(  deck.deal(), count );
+      }
+      //System.out.println (deck.deal().toString());
+      ArrayList <Card> compHand = player1.getHand();
+      ArrayList <Card> hand = user.getHand();
+      for (int x = 0; x < hand.size(); x++)
+      {
+          System.out.println (hand.get( x).toString());
+      }
+    
+      boolean marker = false;
+      while (marker = false)
+      {
+      System.out.println ("Do you want to raise, check, or fold");
+      String s = input.next();
+      if (s.contains( "fold" ))
+      {
+          user.getLoseMessage();
+          marker = true;
+      }
+      else if (s.contains( "raise" ))
+      {
+          System.out.println ("How much do you want to raise?");
+          int bet = input.nextInt();
+          pot += bet;
+          user.bet( bet );
+          marker = true;
+      }
+      else if (s.contains ("check"))
+      {
+          marker = true;
+      }
+      else if (!s.contains( "check" ))
+      {
+          System.out.println ("Please type in either check, raise, or fold");
+      }}
        
 
     }
+   
+  /* public void bettingRound ()
+   {
+       
+       }
+       
+   }
+   */
    
   
    
