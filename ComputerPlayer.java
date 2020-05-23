@@ -61,7 +61,7 @@ public class ComputerPlayer extends Player
            }
            for (int x = 0; x < size - hand.size(); x++)
            {
-               this.setHand(deck.deal(), x);
+               hand.add( x, deck.deal() );
            }
            
        }
@@ -86,8 +86,38 @@ public class ComputerPlayer extends Player
            } 
            for (int x = 0; x < size - hand.size(); x++)
            {
-               this.setHand(deck.deal(), x);
+               hand.add( x, deck.deal() );
            }
+       }
+       else if (userhand.display().contains("high card"))
+       {
+           int max = 0;
+           int temp = hand.get( 0 ).getValue();
+           for (int c = 0; c < hand.size(); c++)
+           {
+               max = hand.get( c ).getValue();
+               if (temp > max)
+               {
+                   max = temp;
+               }
+           }
+           for (int count = 0; count < hand.size(); )
+           {
+               if (hand.get( count ).getValue() != max)
+               {
+                   hand.remove (count);
+                   
+               }
+               else
+               {
+                   count++;
+               }
+           }
+           for (int x = 0; x < size - hand.size(); x++)
+           {
+               hand.add( x, deck.deal() );
+           }
+           
        }
        
        
