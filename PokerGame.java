@@ -24,6 +24,12 @@ public class PokerGame
     private static Integer round;
     private static boolean folded = false;
     private static int temp = 0;
+    private static ArrayList <Card> compHand;
+    private static ArrayList <Card> hand;
+    private static Deck uDeck;
+    private static Deck cDeck;
+    private static Hands userhand;
+    private static Hands compHand1;
 
     public static Chips[] fillChips()
     {
@@ -97,17 +103,17 @@ public class PokerGame
             player1.setHand( deck.deal(), count );
         }
         // System.out.println (deck.deal().toString());
-        ArrayList<Card> compHand = player1.getHand();
-        ArrayList<Card> hand = user.getHand();
+        compHand = player1.getHand();
+        hand = user.getHand();
         // for (int x = 0; x < hand.size(); x++)
         // {
         // System.out.println (hand.get( x).toString());
         // }
 
-        Deck uDeck = new Deck( hand );
-        Deck cDeck = new Deck( compHand );
-        Hands userhand = new Hands( uDeck );
-        Hands compHand1 = new Hands( cDeck );
+        uDeck = new Deck( hand );
+        cDeck = new Deck( compHand );
+        userhand = new Hands( uDeck );
+        compHand1 = new Hands( cDeck );
         userhand.display();
 
         userhand.displayAll();
@@ -123,9 +129,8 @@ public class PokerGame
         
         while (!string.equals("fold") && !string.equals("raise") && !string.equals("check") )
             {
-            System.out
-            .println( "Please type in either check, call, raise, or fold" );
-        string = input.next();
+            System.out.println( "Please type in either check, call, raise, or fold" );
+             string = input.next();
             }
             if ( string.contains( "fold" ) )
             {
@@ -231,7 +236,7 @@ public static String getRoundWinner()
     {
         return "";
     }
-    else if (user.getAmount() < player1.getAmount() && temp < round  )
+    else if (userhand.compareTo(compHand1) == - 1&& temp < round  )
     {
         return user.getLoseRoundMessage();
     }
@@ -239,7 +244,7 @@ public static String getRoundWinner()
     {
         return user.getLoseGameMessage();
     }
-    else if (user.getAmount()> player1.getAmount() && temp <round)
+    else if (userhand.compareTo( compHand1 )== 1 && temp <round)
     {
         return user.getRoundWinMessage();
     }
