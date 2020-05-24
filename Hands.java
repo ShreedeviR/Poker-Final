@@ -485,26 +485,74 @@ public class Hands
     }
 
 
-    int compareTo( Hands that )
+    public int getRank( Hands that )
     {
-        for ( int x = 0; x < 6; x++ ) // cycle through values
+        String s = that.displayNoPrint();
+        if ( s.contains( "high card" ) )
         {
-            if ( this.value[x] > that.value[x] )
+            return 1;
+        }
+        else if ( s.contains( "pair of" ) )
+        {
+            return 2;
+        }
+        else if ( s.contains( "two pair" ) )
+        {
+            return 2;
+        }
+        else if ( s.contains( "three of a kind" ) )
+        {
+            return 3;
+        }
+        else if ( s.contains( "high straight" ) )
+        {
+            return 4;
+        }
+        else if ( s.contains( "flush" ) )
+        {
+            return 5;
+        }
+        else if ( s.contains( "full house" ) )
+        {
+            return 6;
+        }
+        else if ( s.contains( "four of a kind" ) )
+        {
+            return 7;
+        }
+        else if ( s.contains( "straight flush" ) )
+        {
+            return 8;
+        }
+        return 0;
+    }
 
-            {
+    public int [] getValue()
+    {
+        return value;
+    }
+    public int compareTo( Hands that )
+    {
+        if (getRank(this)>getRank(that)){
+            
+            return 1;
+
+        }else if (getRank(that)>getRank(this)) {
+            return -1;
+        }
+        else {
+            if (this.getValue()[1] > that.getValue()[1]) {
                 return 1;
             }
-
-            else if ( this.value[x] < that.value[x] )
-
-            {
+            else {
                 return -1;
             }
-
         }
-
-        return 0; // if hands are equal
+         // if hands are equal
     }
+
+
+    
     public static void main(String[] args) {
         
                for (int i=0; i<1; i++)

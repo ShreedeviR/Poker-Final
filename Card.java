@@ -131,6 +131,10 @@ public class Card
         {
             s += "Jack";
         }
+        else if (myRank.equals("Q") )
+        {
+            s += "Queen";
+        }
         else
         {
             s += "" + myRank;

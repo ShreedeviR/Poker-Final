@@ -8,6 +8,9 @@ public class ComputerPlayer extends Player
     public ArrayList<Card> hand = new ArrayList<Card>();
     private int max;
     private int amount;
+    private boolean hasMatched = false;
+    private boolean hasRaised = false;
+    private boolean hasRaisedMore = false;
     public ComputerPlayer (String name, Chips [] chip, Card card, Card card1, Card card2, Card card3, Card card4)
     {
         super (name, chip, card, card1 ,card2, card3, card4);
@@ -145,8 +148,19 @@ public class ComputerPlayer extends Player
    }
 
    
+       public boolean hasMatched ()
+       {
+           return hasMatched == true;
+       }
        
-       
+       public boolean hasRaised()
+       {
+           return hasRaised == true;
+       }
+       public boolean hasRaisedMore ()
+       {
+           return hasRaisedMore = true;
+       }
    
    
    public String betStrat( ArrayList<Card> hand, int bet, String s, int pot )
@@ -161,7 +175,7 @@ public class ComputerPlayer extends Player
            match( bet );
            pot += bet;
            System.out.println( "The computer has matched" );
-
+           hasMatched = true;
            return "match";
        }
        else if ( userhand.displayNoPrint().contains( "high straight" )
@@ -170,7 +184,7 @@ public class ComputerPlayer extends Player
            raise( bet + 15 );
            pot = pot + bet + 15;
            System.out.println( "The computer has raised by $15" );
-
+           hasRaised = true;
            return "raise";
        }
        else if ( userhand.displayNoPrint().contains( "straight flush" )
@@ -180,6 +194,7 @@ public class ComputerPlayer extends Player
            raise( bet + 50 );
            pot = pot + bet + 50;
            System.out.println( "The computer has raised by $50" );
+           hasRaisedMore = true;
            return "raise";
        }
        else if ( userhand.displayNoPrint().contains( "high card" ) )
@@ -194,7 +209,7 @@ public class ComputerPlayer extends Player
                    max = temp;
                }
            }
-           //System.out.println (max);
+           System.out.println (max);
            if ( ( max <= 4 ) )
            {
                System.out.println ("The computer has folded.");
@@ -211,7 +226,7 @@ public class ComputerPlayer extends Player
                {
                    match( bet );
                    System.out.println( "The computer has matched" );
-
+                   hasMatched = true;
                    return "match";
 
                }
@@ -222,7 +237,18 @@ public class ComputerPlayer extends Player
 
    }
       
-      
+   public void setMatched ()
+   {
+       hasMatched = false;
+   }
+   public void setRaised()
+   {
+       hasRaised = false;
+   }
+   public void setRaisedMore()
+   {
+       hasRaisedMore = false;
+   }
    
   
 

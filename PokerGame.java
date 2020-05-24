@@ -97,7 +97,8 @@ public class PokerGame
         System.out.println (user.getMoneyMessage());
         //System.out.println(player1.getMoneyMessage());
         player1.bet( ante );
-        //System.out.println(player1.getMoneyMessage());
+        pot+= ante;
+        //System.out.pintln(player1.getMoneyMessage());
         deck.shuffle();
 
         for ( int count = 0; count <= 4; count++ )
@@ -184,6 +185,7 @@ public static String getRoundWinner()
        // System.out.println (pot);
         player1.addMoney( pot );
         pot = 0;
+       // System.out.println (user.getMoneyMessage());
         return user.getLoseRoundMessage();
     }
    
@@ -192,6 +194,7 @@ public static String getRoundWinner()
         //System.out.println (pot);
         user.addMoney( pot );
         pot = 0;
+        //System.out.println (user.getMoneyMessage());
         return user.getRoundWinMessage();
     }
    
@@ -276,6 +279,7 @@ public static void bettinground()
     {
         pot += ante;
         user.match( ante );
+        //System.out.println (user.getMoneyMessage());
         folded = false;
         playerBetDecision = "match";
     }
@@ -299,6 +303,21 @@ public static void bettinground()
         deck = new Deck();
         pot = 0;
         folded = true;
+    }
+    if (player1.hasMatched())
+    {
+        pot += ante;
+        player1.setMatched();
+    }
+    else if (player1.hasRaised())
+    {
+        pot += ante + 15;
+        player1.setRaised();
+    }
+    else if (player1.hasRaisedMore())
+    {
+        pot += ante + 50;
+        player1.setRaisedMore();
     }
     
     
@@ -328,8 +347,12 @@ public static void main( String[] args )
         compHand1.display();
         compHand1.displayAll();
         System.out.println( getRoundWinner() );
-        //System.out.println(player1.getAmount());
+        System.out.println(player1.getAmount());
         reset();
+        if (temp < round)
+        {
+            System.out.println ("It is time for round " + (temp + 1));
+        }
 
     }
     
