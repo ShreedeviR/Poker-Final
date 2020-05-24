@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.*;
 
 public class Player
 {
@@ -9,31 +10,35 @@ public class Player
     private String name;
     private int amount;
     Chips [] playerChips;
-    Card card;
-    Card card1;
+    BoardPanel board;
+    public ArrayList<Card> hand = new ArrayList<Card>();
     
-    public Player (String n, Chips [] play, Card c, Card ca)
+    public Player (String n, Chips [] play, Card c, Card d, Card car1, Card card2, Card card3)
     {
         name = n;
         playerChips = play;
-        card = c;
-        card1 = ca;
+        hand.add( c );
+        hand.add( d );
+        hand.add( card2 );
+        hand.add( card3 );
+        hand.add( car1 );
+     
         
         for (Chips ch: play)
         {
-            if (ch.getColor().equals( RED ))
+            if (ch.getColor().equals( Color.RED ))
             {
                 amount += 5;
             }
-            else if (ch.getColor().equals( BLUE ))
+            else if (ch.getColor().equals( Color.BLUE ))
             {
                 amount += 10;
             }
-            else if (ch.getColor().equals( GREEN))
+            else if (ch.getColor().equals( Color.GREEN))
             {
                 amount += 25;
             }
-            else if (ch.getColor().equals( BLACK ))
+            else if (ch.getColor().equals( Color.BLACK ))
             {
                 amount += 100;
             }
@@ -47,12 +52,21 @@ public class Player
         return name;
     }
     
-    /*public Card addCard ()
+    public void setHand (Card c, int x)
     {
-        
+        hand.set(x,c);
     }
-    */
+    
+    public ArrayList <Card> getHand ()
+    {
+        return hand;
+    }
    
+    public String addName (String s)
+    {
+        name = s;
+        return name;
+    }
     public int getAmount()
     {
         return amount;
@@ -64,7 +78,7 @@ public class Player
     
     public void bet (int bet)
     {
-       amount =- bet;
+       amount = amount - bet;
     }
     
     public void earn (int money)
@@ -75,6 +89,25 @@ public class Player
     {
         amount += amount1;
     }
-    
+    public void match( int bet )
+    {
+        this.bet( bet );
+
+    }
+
+
+    public void raise( int bet )
+    {
+        if ( this.amount < bet )
+        {
+            System.out.println( "You do not have enough money." );
+        }
+        else
+        {
+            this.bet( bet );
+        }
+    }
 
 }
+    
+

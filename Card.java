@@ -94,6 +94,10 @@ public class Card
         {
             return 13;
         }
+        if (myRank.equals("10") )
+        {
+            return 10;
+        }
         else
         {
             Character num = myRank.charAt( 0 );

@@ -5,10 +5,12 @@ public class ComputerPlayer extends Player
     private String name;
     private Chips [] chip = new Chips [30];    
     public ArrayList<Card> hand = new ArrayList<Card>();
+    private int max;
     public ComputerPlayer (String name, Chips [] chip, Card card, Card card1, Card card2, Card card3, Card card4)
     {
         super (name, chip, card, card1 ,card2, card3, card4);
     }
+    
    public void gStrat(ArrayList<Card> hand, Deck deck)
    {
        Deck uDeck = new Deck( hand );
@@ -119,9 +121,83 @@ public class ComputerPlayer extends Player
            }
            
        }
-       
-       
    }
+
+   
+       
+       
+   
+   
+   public String betStrat( ArrayList<Card> hand, int bet, String s )
+   {
+       Deck uDeck = new Deck( hand );
+       System.out.println ("UDECK SIZE:" + uDeck.getDeck().size());
+       Hands userhand = new Hands( uDeck );
+       if ( userhand.displayNoPrint().contains( "pair of" )
+           || userhand.displayNoPrint().contains( "two pair" )
+           || userhand.displayNoPrint().contains( "three of a kind" ) )
+       {
+           match( bet );
+           System.out.println( "The computer has matched" );
+
+           return "match";
+       }
+       else if ( userhand.displayNoPrint().contains( "high straight" )
+           || userhand.displayNoPrint().contains( "full house" ) )
+       {
+           raise( bet + 15 );
+           System.out.println( "The computer has raised by $15" );
+
+           return "raise";
+       }
+       else if ( userhand.displayNoPrint().contains( "straight flush" )
+           || userhand.displayNoPrint().contains( "flush" )
+           || userhand.displayNoPrint().contains( "four of a kind" ) )
+       {
+           raise( bet + 50 );
+           System.out.println( "The computer has raised by $50" );
+           return "raise";
+       }
+       else if ( userhand.displayNoPrint().contains( "high card" ) )
+       {
+           max = 0;
+           int temp = hand.get( 0 ).getValue();
+           for (int c = 0; c < hand.size(); c++)
+           {
+               max = hand.get( c ).getValue();
+               if (temp > max)
+               {
+                   max = temp;
+               }
+           }
+           if ( ( max <= 4 ) )
+           {
+               System.out.println ("The computer has folded.");
+               return "fold";
+           }
+           else if ( ( max >= 5 ) )
+           {
+               if ( s.contains( "check" ))
+               {
+                   System.out.println( "The computer has checked!" );
+                   return "check";
+               }
+               else
+               {
+                   match( bet );
+                   System.out.println( "The computer has matched" );
+
+                   return "match";
+
+               }
+           }
+       }
+       return s;
+      
+
+   }
+      
+      
    
   
 

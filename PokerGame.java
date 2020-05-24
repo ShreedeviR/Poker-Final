@@ -30,6 +30,7 @@ public class PokerGame
     private static Deck cDeck;
     private static Hands userhand;
     private static Hands compHand1;
+    private static String playerBetDecision;
 
     public static Chips[] fillChips()
     {
@@ -124,53 +125,53 @@ public class PokerGame
         // boolean marker = false;
         // while (marker = false)
         // {
-        System.out.println( "Do you want to raise, check, call or fold?" );
-        String string = input.next();
+//        System.out.println( "Do you want to raise, check, call or fold?" );
+//        String string = input.next();
+//        
+//        while (!string.equals("fold") && !string.equals("raise") && !string.equals("check") )
+//            {
+//            System.out.println( "Please type in either check, call, raise, or fold" );
+//             string = input.next();
+//            }
+//            if ( string.contains( "fold" ) )
+//            {
+//                System.out.println (user.getLoseRoundMessage());
+//                folded = true;
+//                player1.addMoney( pot );
+//                pot = 0;
+//                for (int count = 0; count < hand.size(); count++)
+//                {
+//                    hand.set( count, null);
+//                    compHand.set (count, null);
+//                    
+//                }
+//                return;
+//                // marker = true;
+//            }
+//            else if ( string.contains( "raise" ) )
+//            {
+//                System.out.println( "How much do you want to raise?" );
+//                int bet = input.nextInt();
+//                pot += bet;
+//                user.bet( bet );
+//                folded = false;
+//                // marker = true;
+//            }
+//            else if ( string.contains( "call" ) )
+//            {
+//                pot += ante;
+//                user.bet( ante );
+//                folded = false;
+//            }
+//            else if ( string.contains( "check" ) )
+//            {
+//                folded = false;// marker = true;
+//            }
+//            
+            
+            
         
-        while (!string.equals("fold") && !string.equals("raise") && !string.equals("check") )
-            {
-            System.out.println( "Please type in either check, call, raise, or fold" );
-             string = input.next();
-            }
-            if ( string.contains( "fold" ) )
-            {
-                System.out.println (user.getLoseRoundMessage());
-                folded = true;
-                player1.addMoney( pot );
-                pot = 0;
-                for (int count = 0; count < hand.size(); count++)
-                {
-                    hand.set( count, null);
-                    compHand.set (count, null);
-                    
-                }
-                return;
-                // marker = true;
-            }
-            else if ( string.contains( "raise" ) )
-            {
-                System.out.println( "How much do you want to raise?" );
-                int bet = input.nextInt();
-                pot += bet;
-                user.bet( bet );
-                folded = false;
-                // marker = true;
-            }
-            else if ( string.contains( "call" ) )
-            {
-                pot += ante;
-                user.bet( ante );
-                folded = false;
-            }
-            else if ( string.contains( "check" ) )
-            {
-                folded = false;// marker = true;
-            }
-            
-            
-            
-        
-        player1.gStrat( compHand, deck);
+    
 
         // }
 
@@ -225,7 +226,8 @@ public static void drawRound() {
         { 
          System.out.println (user.getHand().get( x).toString());
         }
-            
+           
+        player1.gStrat( compHand, deck);
         
     
     }}
@@ -236,27 +238,43 @@ public static String getRoundWinner()
     {
         return "";
     }
-    else if (userhand.compareTo(compHand1) == - 1&& temp < round  )
+    else if (userhand.compareTo(compHand1) == 1 && temp < round  )
     {
+        player1.addMoney( pot );
+        pot =0;
         return user.getLoseRoundMessage();
     }
-    else if (user.getAmount() <player1.getAmount() && temp == round)
+   
+    else if (userhand.compareTo( compHand1 )== - 1 && temp <round)
     {
-        return user.getLoseGameMessage();
-    }
-    else if (userhand.compareTo( compHand1 )== 1 && temp <round)
-    {
+        user.addMoney( pot );
+        pot = 0;
         return user.getRoundWinMessage();
     }
-    else if (user.getAmount() > player1.getAmount() && temp == round)
-    {
-        return user.getWinGameMessage();
-    }
+   
     else
     {
         return "";
     }
 }
+public static String getGameWinner()
+{
+    if (user.getAmount() <player1.getAmount())
+    {
+        pot = 0;
+        return user.getLoseGameMessage();
+    }
+    else if (user.getAmount() > player1.getAmount() && temp == round)
+    {
+        pot = 0;
+        return user.getWinGameMessage();
+    }
+    else 
+    {
+        return "";
+    }
+}
+
 public static void reset ()
 {
     for (int count = 0; count < user.getHand().size(); count++)
@@ -264,29 +282,113 @@ public static void reset ()
         user.setHand( null, count );
         player1.setHand(null, count);
     }
+    folded = false;
+    deck = new Deck();
     pot = 0;
     
 }
+public static void bettinground()
+{
+    if (folded)
+    {
+        return;
+    }
+    System.out.println( "Do you want to raise, check, match or fold?" );
+    String string = input.next();
+    while ( !string.equals( "fold" ) && !string.equals( "raise" )
+        && !string.equals( "check" )&& !string.equals("match") )
+    {
+        System.out.println(
+            "Please type in either check, match, raise, or fold" );
+        string = input.next();
+    }
+    if ( string.contains( "fold" ) )
+    {
+        System.out.println( user.getLoseRoundMessage() );
+        folded = true;
+        player1.addMoney( pot );
+        for (int count = 0; count < user.getHand().size(); count++)
+        {
+            user.setHand( null, count );
+            player1.setHand(null, count);
+        }
+        deck = new Deck();
+        pot = 0;
+        
+        playerBetDecision = "fold";
+        return;
 
-public static void main(String[] args) 
-{  
+    }
+    else if ( string.contains( "raise" ) )
+    {
+        System.out.println( "How much do you want to raise?" );
+        int bet = input.nextInt() + ante;
+        pot += bet;
+        user.raise( bet );
+        folded = false;
+        playerBetDecision = "raise";
+
+    }
+    else if ( string.contains( "match" ) )
+    {
+        pot += ante;
+        user.match( ante );
+        folded = false;
+        playerBetDecision = "match";
+    }
+    else if ( string.contains( "check" ) )
+    {
+        folded = false;
+        System.out.println( "It's now the computer's turn" );
+        playerBetDecision = "check";
+
+    }
+   // System.out.println (compHand.size());
+    if (player1.betStrat( compHand, ante, playerBetDecision).equals("fold"))
+    {
+        System.out.println (user.getRoundWinMessage());
+        user.addMoney( pot );
+        for (int count = 0; count < user.getHand().size(); count++)
+        {
+            user.setHand( null, count );
+            player1.setHand(null, count);
+        }
+        deck = new Deck();
+        pot = 0;
+        folded = true;
+    }
+    
+
+}
+
+
+public static void main( String[] args )
+{
     PokerGame poker = new PokerGame();
-    System.out.println ("How many rounds do you want to play? Please input an integer under 5.");
+    System.out.println(
+        "How many rounds do you want to play? Please input an integer under 5." );
     round = input.nextInt();
     System.out.println( "What is your name?" );
 
     String name = input.next();
-   
+
     System.out.println( "Hello " + name + "!" );
-    for (int count = 0; count < round; count++)
+    for ( int count = 0; count < round; count++ )
     {
         temp++;
         play();
+        bettinground();
         drawRound();
-        System.out.println (getRoundWinner());
-        
+        bettinground();
+        System.out.println("These are the computer's card");
+        compHand1.display();
+        compHand1.displayAll();
+        System.out.println( getRoundWinner() );
+        reset();
+
     }
     
-   
+    System.out.println (getGameWinner());
+
 }
 }

@@ -1,3 +1,6 @@
+import java.util.*;
+
+
 /**
  * Description: A list of Card; used for a player's hand or a deck of cards
  * 
@@ -16,96 +19,102 @@
 public class Deck
 {
 
-    Card [] deck;
+    public ArrayList<Card> deck;
 
-    public Deck() 
+    private char[] suit = { 's', 'c', 'h', 'd' };
+
+    private String[] rank = { "A", "2", "3", "4", "5", "6", "7", "8", "9",
+        "10", "J", "Q", "K" };
+
+
+    public Deck()
     {
-        deck = new Card [52];
+        deck = new ArrayList<Card>();
+        for ( char c : suit )
+        {
+            for ( String s : rank )
+            {
+                Card card = new Card( c, s );
+                deck.add( card );
+            }
+        }
+    }
+
+
+    public Deck(ArrayList<Card> cards) {
+        deck = new ArrayList<Card>();
+       for (int i = 0; i< cards.size(); i++) {
+           //System.out.println(cards.get( i ));
+           deck.add( cards.get( i ) );
+       }
     }
 
 
     public String deckToString()
     {
         String s = "[";
-        for (Card c: deck )
+        for ( Card c : deck )
         {
-            if (deck.length == 1)
+            if ( deck.size() == 1 )
             {
                 s = s + c.toString();
             }
-            
-            else 
+
+            else
             {
                 s = s + ' ' + c.toString();
             }
-            
+
         }
         s = s + "]";
-             
-            return s;
+
+        return s;
     }
 
 
-   public void add (Card card1) 
-   {
-        for (int count = 0; count < deck.length; count++)
-        {
-            if (deck [count] == null)
-            {
-                deck[count] = card1;
-                return;
-            }
-        }
-                    
+    public void add( Card card1 )
+    {
+        deck.add( card1 );
+
     }
-   
-   public Card[] getDeck ()
-   {
-       return deck;
-   }
 
 
-   public Card deal(Deck deck) 
-   {
-      deck.shuffle();
-      return ;
-   }
-
-
-   public void shuffle() 
-   {
-         random.shuffle(this.cards)
+    public ArrayList<Card> getDeck()
+    {
+        return deck;
     }
-   
- /*  public Card [] getTwoCards ()
-   {
-       Card [] playerCards = new Card [2];
-       int x = (int)Math.random() * 52;
-       int c = (int)Math.random ()* 52;
-       if (deck [x]!= null)
-       {
-           playerCards [0] = deck [x];
-       }
-    
-       if (x != c)
-       {
-           playerCards[1] = deck [c];
-           deck [c] = null;
-       }
-       
-       else
-       {
-           playerCards [1] = deck [c + 5];
-           deck [c + 5] = null;
-       }
-       deck [x] = null;
-       
-       
-       return playerCards;
-       
-      
-                      
-   }
-   */
+
+
+    public Card deal()
+    {
+        Card c = deck.get( 0 );
+        deck.remove( 0 );
+        //System.out.println(deck.size());
+        return c;
+    }
+
+
+    public void shuffle()
+    {
+        Collections.shuffle( deck );
+    }
+
+    /*
+     * public Card [] getTwoCards () { Card [] playerCards = new Card [2]; int x
+     * = (int)Math.random() * 52; int c = (int)Math.random ()* 52; if (deck
+     * [x]!= null) { playerCards [0] = deck [x]; }
+     * 
+     * if (x != c) { playerCards[1] = deck [c]; deck [c] = null; }
+     * 
+     * else { playerCards [1] = deck [c + 5]; deck [c + 5] = null; } deck [x] =
+     * null;
+     * 
+     * 
+     * return playerCards;
+     * 
+     * 
+     * 
+     * }
+     */
 
 }
