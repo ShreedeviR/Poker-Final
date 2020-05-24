@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class ComputerPlayer extends Player
@@ -6,9 +7,28 @@ public class ComputerPlayer extends Player
     private Chips [] chip = new Chips [30];    
     public ArrayList<Card> hand = new ArrayList<Card>();
     private int max;
+    private int amount;
     public ComputerPlayer (String name, Chips [] chip, Card card, Card card1, Card card2, Card card3, Card card4)
     {
         super (name, chip, card, card1 ,card2, card3, card4);
+        for ( Chips ch : chip )
+
+            if ( ch.getColor().equals( Color.RED ) )
+            {
+                amount += 5;
+            }
+            else if ( ch.getColor().equals( Color.BLUE ) )
+            {
+                amount += 10;
+            }
+            else if ( ch.getColor().equals( Color.GREEN ) )
+            {
+                amount += 25;
+            }
+            else if ( ch.getColor().equals( Color.BLACK ) )
+            {
+                amount += 100;
+            }
     }
     
    public void gStrat(ArrayList<Card> hand, Deck deck)
@@ -16,12 +36,13 @@ public class ComputerPlayer extends Player
        Deck uDeck = new Deck( hand );
        Hands userhand = new Hands( uDeck );
        int size = hand.size();
-       if (userhand.display().contains("pair of")) 
+       if (userhand.displayNoPrint().contains("pair of")) 
        {
            for (int count = 0; count < hand.size(); )
            {
-               if (!userhand.display().contains(hand.get(count).getRank().toString() ))
+               if (!userhand.displayNoPrint().contains(hand.get(count).getRank().toString() ))
                {
+                   
                    hand.remove (count);
                }
                else
@@ -29,10 +50,11 @@ public class ComputerPlayer extends Player
                    count++;
                }
            }
-           for (int x = 0; x < size - hand.size(); x++)
+           for (int x = 0; x < 3; x++)
            {
                hand.add(x,deck.deal());
            }
+           System.out.println ("HAND SIZE PAIR OF " + hand.size());
            
            /*
            for (int x = 0; x <hand.size(); x++)
@@ -42,11 +64,11 @@ public class ComputerPlayer extends Player
            */
            
        }
-       else if (userhand.display().contains("three of a kind"))
+       else if (userhand.displayNoPrint().contains("three of a kind"))
        {
            for (int count = 0; count < hand.size(); )
            {
-               if (!userhand.display().contains(hand.get(count).getRank().toString() ))
+               if (!userhand.displayNoPrint().contains(hand.get(count).getRank().toString() ))
                {
                    hand.remove (count);
                    
@@ -61,17 +83,18 @@ public class ComputerPlayer extends Player
 //                   System.out.println (hand.get(x).toString());
 //               }
            }
-           for (int x = 0; x < size - hand.size(); x++)
+           for (int x = 0; x < 2; x++)
            {
                hand.add( x, deck.deal() );
            }
+          // System.out.println ("HAND SIZE THREE" + hand.size());
            
        }
-       else if (userhand.display().contains("two pair"))
+       else if (userhand.displayNoPrint().contains("two pair"))
        {
            for (int count = 0; count < hand.size(); )
            {
-               if (!userhand.display().contains(hand.get(count).getRank().toString() ))
+               if (!userhand.displayNoPrint().contains(hand.get(count).getRank()))
                {
                    hand.remove (count);
                    
@@ -80,18 +103,15 @@ public class ComputerPlayer extends Player
                {
                    count++;
                }
-//               for (int x = 0; x <hand.size(); x++)
-//               {
-//                   System.out.println (hand.get(x).toString());
-//               }
                
            } 
-           for (int x = 0; x < size - hand.size(); x++)
+           for (int x = 0; x <  1; x++)
            {
                hand.add( x, deck.deal() );
            }
+           System.out.println ("HAND SIZE TWO PAir " + hand.size());
        }
-       else if (userhand.display().contains("high card"))
+       else if (userhand.displayNoPrint().contains("high card"))
        {
            int max = 0;
            int temp = hand.get( 0 ).getValue();
@@ -115,10 +135,11 @@ public class ComputerPlayer extends Player
                    count++;
                }
            }
-           for (int x = 0; x < size - hand.size(); x++)
+           for (int x = 0; x < 4; x++)
            {
                hand.add( x, deck.deal() );
            }
+          // System.out.println ("HAND SIZE HIGh" + hand.size());
            
        }
    }
@@ -128,16 +149,17 @@ public class ComputerPlayer extends Player
        
    
    
-   public String betStrat( ArrayList<Card> hand, int bet, String s )
+   public String betStrat( ArrayList<Card> hand, int bet, String s, int pot )
    {
        Deck uDeck = new Deck( hand );
-       System.out.println ("UDECK SIZE:" + uDeck.getDeck().size());
+       //System.out.println ("UDECK SIZE:" + uDeck.getDeck().size());
        Hands userhand = new Hands( uDeck );
        if ( userhand.displayNoPrint().contains( "pair of" )
            || userhand.displayNoPrint().contains( "two pair" )
            || userhand.displayNoPrint().contains( "three of a kind" ) )
        {
            match( bet );
+           pot += bet;
            System.out.println( "The computer has matched" );
 
            return "match";
@@ -146,6 +168,7 @@ public class ComputerPlayer extends Player
            || userhand.displayNoPrint().contains( "full house" ) )
        {
            raise( bet + 15 );
+           pot = pot + bet + 15;
            System.out.println( "The computer has raised by $15" );
 
            return "raise";
@@ -155,6 +178,7 @@ public class ComputerPlayer extends Player
            || userhand.displayNoPrint().contains( "four of a kind" ) )
        {
            raise( bet + 50 );
+           pot = pot + bet + 50;
            System.out.println( "The computer has raised by $50" );
            return "raise";
        }
@@ -170,6 +194,7 @@ public class ComputerPlayer extends Player
                    max = temp;
                }
            }
+           //System.out.println (max);
            if ( ( max <= 4 ) )
            {
                System.out.println ("The computer has folded.");
