@@ -6,75 +6,89 @@ import java.util.Scanner;
 public class PokerGame
 
 {
-    static Chips[] chip = new Chips[30];
+    
 
     private static int ante;
-
-    static Deck deck = new Deck();
-
+    private static Deck deck = new Deck();
     private static int pot = 0;
-
     private static Scanner input = new Scanner( System.in );
-
     private static int rounds;
-
     private static ComputerPlayer player1;
-
+    private static ComputerPlayer player2;
+    private static ComputerPlayer player3;
     private static HumanPlayer user;
     private static Integer round;
     private static boolean folded = false;
     private static int temp = 0;
     private static ArrayList <Card> compHand;
+    private static ArrayList <Card> compHand1;
+    private static ArrayList <Card> compHand2;
     private static ArrayList <Card> hand;
     private static Deck uDeck;
     private static Deck cDeck;
+    private static Deck cDeck1;
+    private static Deck cDeck2;
     private static Hands userhand;
-    private static Hands compHand1;
+    private static Hands cHand1;
+    private static Hands cHand2;
+    private static Hands cHand;
     private static String playerBetDecision;
 
-    public static Chips[] fillChips()
-    {
-
-        for ( int count = 0; count < chip.length; count++ )
-        {
-            if ( count >= 0 && count < 8 )
-            {
-
-                chip[count] = new Chips( 5, Color.RED );
-            }
-            else if ( count >= 8 && count < 18 )
-            {
-                chip[count] = new Chips( 10, Color.BLUE );
-            }
-            else if ( count >= 18 && count < 24 )
-            {
-                chip[count] = new Chips( 25, Color.GREEN );
-            }
-            else if ( count >= 24 && count < 30 )
-            {
-                chip[count] = new Chips( 100, Color.BLACK );
-            }
-        }
-        return chip;
-    }
+//    public static Chips[] fillChips()
+//    {
+//
+//        for ( int count = 0; count < chip.length; count++ )
+//        {
+//            if ( count >= 0 && count < 8 )
+//            {
+//
+//                chip[count] = new Chips( 5, Color.RED );
+//            }
+//            else if ( count >= 8 && count < 18 )
+//            {
+//                chip[count] = new Chips( 10, Color.BLUE );
+//            }
+//            else if ( count >= 18 && count < 24 )
+//            {
+//                chip[count] = new Chips( 25, Color.GREEN );
+//            }
+//            else if ( count >= 24 && count < 30 )
+//            {
+//                chip[count] = new Chips( 100, Color.BLACK );
+//            }
+//        }
+//        return chip;
+//    }
     public PokerGame ()
     {
-        chip = fillChips();
-        player1 = new ComputerPlayer( "Kim",
-            chip,
+       
+        player1 = new ComputerPlayer( "Karen",
+            null,
+            null,
+            null,
+            null,
+            null );
+        player2 = new ComputerPlayer( "Chad",
+            null,
+            null,
+            null,
+            null,
+            null );
+        player3 = new ComputerPlayer( "Lisa",
             null,
             null,
             null,
             null,
             null );
         user = new HumanPlayer( null,
-            chip,
             null,
             null,
             null,
             null,
             null );
-        
+       // System.out.println (player1.getName());
+       // System.out.println (player2.getName());
+       // System.out.println (player3.getName());
         
     }
     public static void play()
@@ -90,14 +104,17 @@ public class PokerGame
                 "You do not have that much money. Enter a valid amount." );
             ante = input.nextInt ();
         }
-//        System.out.println( "How much do you want to bet?" );
-        //ante = input.nextInt();
+       
         pot += ante;
         user.makeBet(ante);
         System.out.println (user.getMoneyMessage());
         //System.out.println(player1.getMoneyMessage());
         player1.bet( ante );
+        player2.bet( ante );
+        player3.bet( ante );
         pot+= ante;
+        pot+= ante;
+        pot += ante;
         //System.out.pintln(player1.getMoneyMessage());
         deck.shuffle();
 
@@ -105,19 +122,23 @@ public class PokerGame
         {
             user.setHand( deck.deal(), count );
             player1.setHand( deck.deal(), count );
+            player2.setHand( deck.deal(), count );
+            player3.setHand( deck.deal(), count );
         }
-        // System.out.println (deck.deal().toString());
+       
         compHand = player1.getHand();
+        compHand1 = player2.getHand();
+        compHand2 = player3.getHand();
         hand = user.getHand();
-        // for (int x = 0; x < hand.size(); x++)
-        // {
-        // System.out.println (hand.get( x).toString());
-        // }
-
+        
+        cDeck1 = new Deck (compHand1);
+        cDeck2 = new Deck (compHand2);
         uDeck = new Deck( hand );
         cDeck = new Deck( compHand );
         userhand = new Hands( uDeck );
-        compHand1 = new Hands( cDeck );
+        cHand = new Hands( cDeck );
+        cHand1 = new Hands (cDeck1);
+        cHand2 = new Hands (cDeck2);
         userhand.display();
 
         userhand.displayAll();
@@ -172,31 +193,59 @@ public static void drawRound() {
 
     }
     player1.gStrat( compHand, deck);
+    player2.gStrat( compHand1, cDeck1 );
+    player3.gStrat(compHand2, cDeck2);
     }
-
+public static Hands findWinner ()
+{
+    Hands [] playList = {userhand, cHand, cHand1, cHand2};
+    Hands winner = userhand;
+    for (int count = 1; count < playList.length; count ++)
+    {
+        if (winner.compareTo (playList [count]) == -1)
+        {
+            winner = playList [count];
+        }
+    }
+    return winner;
+    
+    
+}
 public static String getRoundWinner()
 {
-    if (folded)
+ 
+    Hands winner = findWinner();
+    if (winner.equals( userhand ))
     {
-        return "";
+        user.addMoney( pot );
+        pot = 0;
+        return user.getRoundWinMessage();
     }
-    else if (userhand.compareTo(compHand1) == - 1  )
+    else if (winner.equals( cHand ) )
     {
-       // System.out.println (pot);
+      
         player1.addMoney( pot );
         pot = 0;
        // System.out.println (user.getMoneyMessage());
-        return user.getLoseRoundMessage();
+        return player1.getName() + " has won this round. " + user.getLoseRoundMessage();
+    }
+    else if (winner.equals( cHand1 ) )
+    {
+     
+        player2.addMoney( pot );
+        pot = 0;
+       // System.out.println (user.getMoneyMessage());
+        return player2.getName() + " has won this round. " + user.getLoseRoundMessage();
+    }
+    else if (winner.equals( cHand2 ) )
+    {
+       
+        player3.addMoney( pot );
+        pot = 0;
+     
+        return player3.getName() + " has won this round. " + user.getLoseRoundMessage();
     }
    
-    else if (userhand.compareTo( compHand1 )== 1 )
-    {
-        //System.out.println (pot);
-        user.addMoney( pot );
-        pot = 0;
-        //System.out.println (user.getMoneyMessage());
-        return user.getRoundWinMessage();
-    }
    
     else
     {
@@ -205,17 +254,38 @@ public static String getRoundWinner()
 }
 public static String getGameWinner()
 {
-    if (user.getAmount() < player1.getAmount())
+    int [] money = {user.getAmount(), player1.getAmount(), player2.getAmount(), player3.getAmount()};
+    int winner = user.getAmount();
+    for (int count = 1; count < money.length; count++)
+    {
+        if (winner < money [count])
+        {
+            winner = money [count];
+        }
+        
+    }
+    if (winner == user.getAmount())
     {
         pot = 0;
-        return user.getLoseGameMessage();
+        return user.getWinGameMessage();  
     }
-    else if (user.getAmount() > player1.getAmount() && temp == round)
+    if (winner == player1.getAmount())
     {
-        pot = 0;
-        return user.getWinGameMessage();
+        pot = 0; 
+        return player1.getName() + " has won the game!" + user.getLoseGameMessage();            
     }
-    else 
+    if (winner == player2.getAmount())
+    {
+        pot = 0; 
+        return player2.getName() + " has won the game!" + user.getLoseGameMessage();            
+    }
+    if (winner == player3.getAmount())
+    {
+        pot = 0; 
+        return player3.getName() + " has won the game!" + user.getLoseGameMessage();            
+    }
+
+    else
     {
         return "";
     }
@@ -227,8 +297,13 @@ public static void reset ()
     {
         user.setHand( null, count );
         player1.setHand(null, count);
+        player2.setHand( null, count );
+        player3.setHand( null, count );
     }
     folded = false;
+    player1.setFolded();
+    player2.setFolded();
+    player3.setFolded();
     deck = new Deck();
     pot = 0;
     
@@ -252,14 +327,6 @@ public static void bettinground()
     {
         System.out.println( user.getLoseRoundMessage() );
         folded = true;
-        player1.addMoney( pot );
-        for (int count = 0; count < user.getHand().size(); count++)
-        {
-            user.setHand( null, count );
-            player1.setHand(null, count);
-        }
-        deck = new Deck();
-        pot = 0;
         
         playerBetDecision = "fold";
         return;
@@ -269,8 +336,9 @@ public static void bettinground()
     {
         System.out.println( "How much do you want to raise?" );
         int bet = input.nextInt() + ante;
-        pot += bet + ante;
-        user.raise( bet + ante );
+        pot += bet;
+        //ante = bet;
+        user.raise( bet  );
         folded = false;
         playerBetDecision = "raise";
 
@@ -290,20 +358,54 @@ public static void bettinground()
         playerBetDecision = "check";
 
     }
-   // System.out.println (compHand.size());
-    if (player1.betStrat( compHand, ante, playerBetDecision, pot ).equals("fold"))
+   // System.out.println (compHand.size());  
+
+}
+public static void computerBettingRound ()
+{
+    String s = "";
+    String str = "";
+    ComputerPlayer [] comp = {player1, player2, player3};
+ 
+    for (int count = 0; count < comp.length; count++)
     {
-        user.addMoney( pot );
-        System.out.println (user.getRoundWinMessage());
-        for (int count = 0; count < user.getHand().size(); count++)
+        if (comp [count].getFolded())
         {
-            user.setHand( null, count );
-            player1.setHand(null, count);
+            comp [count] = null;
         }
-        deck = new Deck();
-        pot = 0;
-        folded = true;
     }
+    if (comp [0] != null)
+    {
+        s = comp[0].betStrat (compHand, ante, playerBetDecision, pot);
+    }
+    else 
+    {
+        s = playerBetDecision;
+    }
+    if (comp [0] == null && comp [1] == null && comp [2] == null)
+    {
+        folded = true;
+        user.addMoney (pot);
+        pot = 0;
+        reset ();
+    }
+    ArrayList <Card > h = compHand1;
+    for (int x = 1; x < comp.length; x ++)
+    {
+        if (x == 2)
+        {
+            h = compHand2;
+        }
+        if (comp [x] != null)
+        {
+          str = comp [x].betStrat( h, ante, s , pot);
+           
+        }
+       
+        s = str;
+    }
+    
+    
     if (player1.hasMatched())
     {
         pot += ante;
@@ -320,10 +422,39 @@ public static void bettinground()
         player1.setRaisedMore();
     }
     
+    if (player2.hasMatched())
+    {
+        pot += ante;
+        player2.setMatched();
+    }
+    else if (player2.hasRaised())
+    {
+        pot += ante + 15;
+        player2.setRaised();
+    }
+    else if (player2.hasRaisedMore())
+    {
+        pot += ante + 50;
+        player2.setRaisedMore();
+    }
     
-
+    if (player3.hasMatched())
+    {
+        pot += ante;
+        player3.setMatched();
+    }
+    else if (player3.hasRaised())
+    {
+        pot += ante + 15;
+        player3.setRaised();
+    }
+    else if (player3.hasRaisedMore())
+    {
+        pot += ante + 50;
+        player3.setRaisedMore();
+    }
+    
 }
-
 
 public static void main( String[] args )
 {
@@ -341,13 +472,22 @@ public static void main( String[] args )
         temp++;
         play();
         bettinground();
+        computerBettingRound();
         drawRound();
         bettinground();
-        System.out.println("These are the computer's card");
-        compHand1.display();
-        compHand1.displayAll();
+        computerBettingRound();
+        System.out.println("These are " + player1.getName() + "'s cards");
+        cHand.display();
+        cHand.displayAll();
+        System.out.println("These are " + player2.getName() + "'s cards");
+        cHand1.display();
+        cHand1.displayAll();
+        System.out.println("These are " + player3.getName() + "'s cards");
+        cHand2.display();
+        cHand2.displayAll();
+        
         System.out.println( getRoundWinner() );
-        System.out.println(player1.getAmount());
+        //System.out.println(player1.getAmount());
         reset();
         if (temp < round)
         {

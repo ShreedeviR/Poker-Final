@@ -21,32 +21,15 @@ public class HumanPlayer extends Player implements MouseListener
 
     public HumanPlayer(
         String name,
-        Chips[] chip,
+       
         Card card,
         Card card1,
         Card card2,
         Card card3,
         Card card4 )
     {
-        super( name, chip, card, card1, card2, card3, card4 );
-        for ( Chips ch : chip )
-
-            if ( ch.getColor().equals( Color.RED ) )
-            {
-                amount += 5;
-            }
-            else if ( ch.getColor().equals( Color.BLUE ) )
-            {
-                amount += 10;
-            }
-            else if ( ch.getColor().equals( Color.GREEN ) )
-            {
-                amount += 25;
-            }
-            else if ( ch.getColor().equals( Color.BLACK ) )
-            {
-                amount += 100;
-            }
+        super( name,  card, card1, card2, card3, card4 );
+        amount = 890;
     }
 
 

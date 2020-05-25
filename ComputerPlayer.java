@@ -11,27 +11,12 @@ public class ComputerPlayer extends Player
     private boolean hasMatched = false;
     private boolean hasRaised = false;
     private boolean hasRaisedMore = false;
-    public ComputerPlayer (String name, Chips [] chip, Card card, Card card1, Card card2, Card card3, Card card4)
+    private boolean hasFolded = false;
+    public ComputerPlayer (String name, Card card, Card card1, Card card2, Card card3, Card card4)
     {
-        super (name, chip, card, card1 ,card2, card3, card4);
-        for ( Chips ch : chip )
-
-            if ( ch.getColor().equals( Color.RED ) )
-            {
-                amount += 5;
-            }
-            else if ( ch.getColor().equals( Color.BLUE ) )
-            {
-                amount += 10;
-            }
-            else if ( ch.getColor().equals( Color.GREEN ) )
-            {
-                amount += 25;
-            }
-            else if ( ch.getColor().equals( Color.BLACK ) )
-            {
-                amount += 100;
-            }
+        super (name, card, card1 ,card2, card3, card4);
+        this.name = name;
+        amount = 890;
     }
     
    public void gStrat(ArrayList<Card> hand, Deck deck)
@@ -43,6 +28,7 @@ public class ComputerPlayer extends Player
        {
            for (int count = 0; count < hand.size(); )
            {
+              // System.out.println (hand.get( count ).getRank());
                if (!userhand.displayNoPrint().contains(hand.get(count).getRank().toString() ))
                {
                    
@@ -57,7 +43,7 @@ public class ComputerPlayer extends Player
            {
                hand.add(x,deck.deal());
            }
-           System.out.println ("HAND SIZE PAIR OF " + hand.size());
+          // System.out.println ("HAND SIZE PAIR OF " + hand.size());
            
            /*
            for (int x = 0; x <hand.size(); x++)
@@ -112,7 +98,7 @@ public class ComputerPlayer extends Player
            {
                hand.add( x, deck.deal() );
            }
-           System.out.println ("HAND SIZE TWO PAir " + hand.size());
+           //System.out.println ("HAND SIZE TWO PAir " + hand.size());
        }
        else if (userhand.displayNoPrint().contains("high card"))
        {
@@ -174,7 +160,8 @@ public class ComputerPlayer extends Player
        {
            match( bet );
            pot += bet;
-           System.out.println( "The computer has matched" );
+           
+           System.out.println(name+ " has matched" );
            hasMatched = true;
            return "match";
        }
@@ -183,7 +170,7 @@ public class ComputerPlayer extends Player
        {
            raise( bet + 15 );
            pot = pot + bet + 15;
-           System.out.println( "The computer has raised by $15" );
+           System.out.println( name + " has raised by $15" );
            hasRaised = true;
            return "raise";
        }
@@ -193,7 +180,7 @@ public class ComputerPlayer extends Player
        {
            raise( bet + 50 );
            pot = pot + bet + 50;
-           System.out.println( "The computer has raised by $50" );
+           System.out.println( name + " has raised by $50" );
            hasRaisedMore = true;
            return "raise";
        }
@@ -209,23 +196,24 @@ public class ComputerPlayer extends Player
                    max = temp;
                }
            }
-           System.out.println (max);
+          // System.out.println (max);
            if ( ( max <= 4 ) )
            {
-               System.out.println ("The computer has folded.");
+               System.out.println (name + " has folded.");
+               hasFolded = true;
                return "fold";
            }
            else if ( ( max >= 5 ) )
            {
                if ( s.contains( "check" ))
                {
-                   System.out.println( "The computer has checked!" );
+                   System.out.println( name + " has checked!" );
                    return "check";
                }
                else
                {
                    match( bet );
-                   System.out.println( "The computer has matched" );
+                   System.out.println( name + " has matched" );
                    hasMatched = true;
                    return "match";
 
@@ -235,6 +223,14 @@ public class ComputerPlayer extends Player
        return s;
       
 
+   }
+   public boolean getFolded ()
+   {
+       return hasFolded;
+   }
+   public void setFolded ()
+   {
+       hasFolded = false;
    }
       
    public void setMatched ()

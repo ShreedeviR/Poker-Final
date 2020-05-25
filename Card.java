@@ -18,7 +18,7 @@ public class Card
 
     private char mySuit;
 
-    private static String[] rank = { "Ace", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    private static String[] rank = { "A", "1", "2", "3", "4", "5", "6", "7", "8", "9",
         "10", "J", "Q", "K" };
 
     private String myRank;
@@ -119,7 +119,7 @@ public class Card
     public String toString()
     {
         String s = "";
-        if (myRank.equals("A") )
+        if (myRank.equals("1") )
         {
             s += "Ace";
         }

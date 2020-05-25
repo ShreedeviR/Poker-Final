@@ -16,14 +16,14 @@ public class Player
 
     private int amount;
 
-    Chips[] playerChips;
+    
 
     public ArrayList<Card> hand = new ArrayList<Card>();
 
 
     public Player(
         String n,
-        Chips[] play,
+        
         Card c,
         Card d,
         Card card1,
@@ -31,33 +31,13 @@ public class Player
         Card card3 )
     {
         name = n;
-        playerChips = play;
         hand.add( c );
         hand.add( d );
         hand.add( card1 );
         hand.add( card2 );
         hand.add( card3 );
 
-        for ( Chips ch : play )
-        {
-            if ( ch.getColor().equals( RED ) )
-            {
-                amount += 5;
-            }
-            else if ( ch.getColor().equals( BLUE ) )
-            {
-                amount += 10;
-            }
-            else if ( ch.getColor().equals( GREEN ) )
-            {
-                amount += 25;
-            }
-            else if ( ch.getColor().equals( BLACK ) )
-            {
-                amount += 100;
-            }
-
-        }
+       amount = 890;
     }
 
     public String getMoneyMessage()
