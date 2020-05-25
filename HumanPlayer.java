@@ -5,7 +5,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-
+/**
+ * 
+ * This class represents the human player or the user who is playing
+ * the game through the console.
+ *
+ *  @author  Shreedevi Rao and Malavika Nair
+ *  @version May 24, 2020
+ *  @author  Period: TODO
+ *  @author  Assignment: PokerFinalProject
+ *
+ *  @author  Sources: TODO
+ */
 public class HumanPlayer extends Player implements MouseListener
 {
     private String name;
@@ -18,7 +29,15 @@ public class HumanPlayer extends Player implements MouseListener
 
     private boolean myTurn;
 
-
+/**
+ * This constructs a human player from the player super class
+ * @param name - the name of the person playing
+ * @param card - Their first card in their hand
+ * @param card1 - their second card in their hand
+ * @param card2 - their third card in their hand
+ * @param card3 - their fourth card in their hand
+ * @param card4 - their fifth card in their hand
+ */
     public HumanPlayer(
         String name,
        
@@ -32,32 +51,30 @@ public class HumanPlayer extends Player implements MouseListener
         amount = 890;
     }
 
-
+/**
+ * Sets the name of the person to the String parameter
+ * @param s the name it should be changed to
+ * @return returns the new name of the person
+ */
     public String addName( String s )
     {
         name = s;
         return name;
     }
-
+ 
+    /**
+     * Bets the amount of money from the player
+     * @param bet is the amount to bet
+     */
     public void bet (int bet)
     {
         amount = amount - bet;
         
     }
-    public String getTurn()
-    {
-        myTurn = true;
-        return "Your turn";
-    }
-
-
     
 
-    public void makeBet( int c )
-    {
-        super.bet( c );
 
-    }
+   
 
 
     public void mouseClicked( MouseEvent e )

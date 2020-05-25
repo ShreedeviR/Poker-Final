@@ -3,7 +3,7 @@ import java.util.*;
 
 /**
  * 
- * This class
+ * This class represents a single card in a deck or a hand
  *
  * @author Shreedevi and Malavika
  * @version Apr 27, 2020
@@ -18,12 +18,20 @@ public class Card
 
     private char mySuit;
 
-    private static String[] rank = { "A", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-        "10", "J", "Q", "K" };
+    private static String[] rank = { "A", "1", "2", "3", "4", "5", "6", "7",
+        "8", "9", "10", "J", "Q", "K" };
 
     private String myRank;
 
 
+    /**
+     * This constructs a Card from a given suit and rank
+     * 
+     * @param s
+     *            the suit, either s, c, d, or h of the card
+     * @param r
+     *            the rank of the card
+     */
     public Card( char s, String r )
     {
         mySuit = s;
@@ -62,20 +70,38 @@ public class Card
     }
 
 
+    /**
+     * 
+     * Returns the suit of this card
+     * 
+     * @return the suit of this card
+     */
     public char getSuit()
     {
         return mySuit;
     }
 
 
-    public String getRank() {
-        
+    /**
+     * 
+     * Returns the rank of this card
+     * 
+     * @return the rank of this card
+     */
+    public String getRank()
+    {
+
         return myRank;
 
-   }
+    }
 
 
-
+    /**
+     * 
+     * Gets the value of the card by its rank
+     * 
+     * @return the value of the card
+     */
     public int getValue()
     {
         if ( myRank.equals( "A" ) )
@@ -94,7 +120,7 @@ public class Card
         {
             return 13;
         }
-        if (myRank.equals("10") )
+        if ( myRank.equals( "10" ) )
         {
             return 10;
         }
@@ -108,6 +134,14 @@ public class Card
     }
 
 
+    /**
+     * 
+     * returns the rank as a String
+     * 
+     * @param __rank
+     *            the index of the rank array
+     * @return the rank as a String
+     */
     public static String rankAsString( int __rank )
     {
 
@@ -116,22 +150,27 @@ public class Card
     }
 
 
+    /**
+     * Returns the String of the card in a "rank" of "suit" format
+     * 
+     * @return the String of the card in a "rank" of "suit" format
+     */
     public String toString()
     {
         String s = "";
-        if (myRank.equals("1") )
+        if ( myRank.equals( "1" ) )
         {
             s += "Ace";
         }
-        else if (myRank.equals( "K" ))
+        else if ( myRank.equals( "K" ) )
         {
             s += "King";
         }
-        else if (myRank.equals("J") )
+        else if ( myRank.equals( "J" ) )
         {
             s += "Jack";
         }
-        else if (myRank.equals("Q") )
+        else if ( myRank.equals( "Q" ) )
         {
             s += "Queen";
         }
@@ -140,19 +179,19 @@ public class Card
             s += "" + myRank;
         }
         s += " of ";
-        if (mySuit == 's')
+        if ( mySuit == 's' )
         {
-            s+= "spades";
+            s += "spades";
         }
-        else if (mySuit == 'c')
+        else if ( mySuit == 'c' )
         {
             s += "clubs";
         }
-        else if (mySuit == 'h')
+        else if ( mySuit == 'h' )
         {
             s += "heart";
         }
-        else if (mySuit == 'd')
+        else if ( mySuit == 'd' )
         {
             s += "diamond";
         }
